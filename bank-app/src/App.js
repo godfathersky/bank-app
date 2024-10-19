@@ -1,17 +1,24 @@
 import './App.css';
-import { LoginBtn } from './LoginBtn';
-import logo from './assets/bank-logo.png';
+import React, { useState, useEffect } from 'react';
+import PreLoader from './PreLoader';
+import MainContent from './MainContent';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Symulacja ładowania danych
+    const loadData = setTimeout(() => {
+      setIsLoading(false);
+    }, 6000); // Ładowanie trwa 3 sekundy
+
+    // Czyszczenie timeoutu, gdy komponent zostanie odmontowany
+    return () => clearTimeout(loadData);
+  }, []);
+
   return (
     <div className="App">
-      {
-        <div className="App-header">
-            <img src={logo} alt="Logo" style={{width:'250px', height:'270px'}}/>
-            <h1>Welcome to the Bank of React</h1>
-            <LoginBtn />
-        </div>
-      }
+      {isLoading ? <PreLoader /> : <MainContent />}
     </div>
   );
 }
